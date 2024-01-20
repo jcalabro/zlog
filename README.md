@@ -17,6 +17,9 @@ pub fn main() !void {
         .regions = "all",
         .writer = std.io.getStdOut(),
     });
+    defer zlog.deinit();
+
+    // your code here...
 }
 ```
 
