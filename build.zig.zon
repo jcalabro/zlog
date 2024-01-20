@@ -1,11 +1,15 @@
 .{
     .name = "logger",
     .version = "0.1.0",
-    .paths = .{""},
     .dependencies = .{
         .time = .{
             .url = "https://github.com/jcalabro/zig-time/archive/master.tar.gz",
             .hash = "1220c790b2eb081c01eebbeb1e22168675faff345ce5e832f18948de16dc23c431e8",
         },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
     },
 }

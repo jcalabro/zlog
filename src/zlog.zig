@@ -34,7 +34,7 @@ pub const Options = struct {
     regions: []const u8 = "all",
     active_regions: [][]const u8 = undefined,
 
-    writer: fs.File.Writer,
+    fp: fs.File,
 
     color: bool = true,
 
@@ -152,7 +152,8 @@ pub const Logger = struct {
 
         opts.mu.lock();
         defer opts.mu.unlock();
-        opts.writer.writeAll(output) catch return;
+
+        opts.fp.writeAll(output) catch return;
     }
 
     pub inline fn debug(self: @This(), comptime fmt: []const u8) void {
@@ -215,7 +216,7 @@ test "logging" {
             .allocator = testing.allocator,
             .level = .wrn,
             .regions = "all",
-            .writer = fp.writer(),
+            .fp = fp,
             .color = false,
         });
         defer deinit();
