@@ -4,6 +4,23 @@ Simple structured logging for Zig.
 
 ## Usage
 
+Add the following dependency to your `build.zig.zon` file's dependencies section:
+
+```
+.zlog = .{
+    .url = "https://github.com/jcalabro/zlog/archive/main.tar.gz",
+    .hash = "<hash>",
+}
+```
+
+Add the following to your `build.zig`:
+
+```zig
+const zlog_dep = b.dependency("zlog", .{});
+const zlog_mod = zlog_dep.module("zlog");
+exe.root_module.addImport("zlog", zlog_mod);
+```
+
 Once at startup in your program, call `init`:
 
 ```zig
