@@ -32,7 +32,7 @@ pub fn main() !void {
         .allocator = std.heap.c_allocator,
         .level = .dbg,
         .regions = "all",
-        .writer = std.io.getStdOut(),
+        .fp = std.io.getStdOut(),
     });
     defer zlog.deinit();
 
