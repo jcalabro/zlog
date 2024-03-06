@@ -156,43 +156,43 @@ pub const Logger = struct {
         opts.fp.writeAll(output) catch return;
     }
 
-    pub inline fn debug(self: @This(), comptime fmt: []const u8) void {
+    pub fn debug(self: @This(), comptime fmt: []const u8) void {
         debugf(self, fmt, .{});
     }
 
-    pub inline fn debugf(self: @This(), comptime fmt: []const u8, args: anytype) void {
+    pub fn debugf(self: @This(), comptime fmt: []const u8, args: anytype) void {
         write(self, fmt, args, Level.dbg, Color.Green);
     }
 
-    pub inline fn info(self: @This(), comptime fmt: []const u8) void {
+    pub fn info(self: @This(), comptime fmt: []const u8) void {
         infof(self, fmt, .{});
     }
 
-    pub inline fn infof(self: @This(), comptime fmt: []const u8, args: anytype) void {
+    pub fn infof(self: @This(), comptime fmt: []const u8, args: anytype) void {
         write(self, fmt, args, Level.inf, Color.Blue);
     }
 
-    pub inline fn warn(self: @This(), comptime fmt: []const u8) void {
+    pub fn warn(self: @This(), comptime fmt: []const u8) void {
         warnf(self, fmt, .{});
     }
 
-    pub inline fn warnf(self: @This(), comptime fmt: []const u8, args: anytype) void {
+    pub fn warnf(self: @This(), comptime fmt: []const u8, args: anytype) void {
         write(self, fmt, args, Level.wrn, Color.Yellow);
     }
 
-    pub inline fn err(self: @This(), comptime fmt: []const u8) void {
+    pub fn err(self: @This(), comptime fmt: []const u8) void {
         errf(self, fmt, .{});
     }
 
-    pub inline fn errf(self: @This(), comptime fmt: []const u8, args: anytype) void {
+    pub fn errf(self: @This(), comptime fmt: []const u8, args: anytype) void {
         write(self, fmt, args, Level.err, Color.Red);
     }
 
-    pub inline fn fatal(self: @This(), comptime fmt: []const u8) void {
+    pub fn fatal(self: @This(), comptime fmt: []const u8) void {
         fatalf(self, fmt, .{});
     }
 
-    pub inline fn fatalf(self: @This(), comptime fmt: []const u8, args: anytype) void {
+    pub fn fatalf(self: @This(), comptime fmt: []const u8, args: anytype) void {
         write(self, fmt, args, Level.ftl, Color.Red);
         std.os.exit(1);
     }
