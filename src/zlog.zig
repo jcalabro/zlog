@@ -53,21 +53,21 @@ pub fn init(op: Options) !void {
     opts = op;
 
     opts.active_regions = blk: {
-        var activeRegions = std.ArrayList([]const u8).init(opts.allocator);
-        errdefer activeRegions.deinit();
+        var active_regions = std.ArrayList([]const u8).init(opts.allocator);
+        errdefer active_regions.deinit();
 
         // split up regions based on "," and trim remaining whitespace
         const whitespace = " \r\t\x00";
         var iter = mem.split(u8, opts.regions, ",");
-        try activeRegions.append(iter.first());
+        try active_regions.append(iter.first());
         var next = iter.next();
         while (next != null) {
             const region = mem.trim(u8, next.?, whitespace);
-            try activeRegions.append(region);
+            try active_regions.append(region);
             next = iter.next();
         }
 
-        break :blk try activeRegions.toOwnedSlice();
+        break :blk try active_regions.toOwnedSlice();
     };
 }
 
@@ -105,9 +105,9 @@ pub const Logger = struct {
     }
 
     fn write(self: Self, comptime fmt: []const u8, args: anytype, lvl: Level, color: Color) void {
-        const globalLvl = opts.level.num();
-        const localLvl = lvl.num();
-        if (localLvl < globalLvl) {
+        const global_lvl = opts.level.num();
+        const local_lvl = lvl.num();
+        if (local_lvl < global_lvl) {
             // log level is not high enough
             return;
         }
@@ -124,7 +124,7 @@ pub const Logger = struct {
             return;
         }
 
-        const colorStr = switch (opts.color) {
+        const color_str = switch (opts.color) {
             true => color.str(),
             false => Color.Reset.str(),
         };
@@ -134,14 +134,14 @@ pub const Logger = struct {
         defer opts.allocator.free(msg);
 
         // RFC 3999 (i.e. 2023-01-19T08:37:01, in UTC since that's all that time.zig supports)
-        const timeFmt = "YYYY-MM-DDTHH:mm:ss";
-        var now = [_]u8{0} ** timeFmt.len;
+        const time_fmt = "YYYY-MM-DDTHH:mm:ss";
+        var now = [_]u8{0} ** time_fmt.len;
         var buf = io.fixedBufferStream(&now);
-        time.DateTime.now().format(timeFmt, .{}, buf.writer()) catch return;
+        time.DateTime.now().format(time_fmt, .{}, buf.writer()) catch return;
 
         // [level] [region] [time] message
         const output = std.fmt.allocPrint(opts.allocator, "{s}[{s}] [{s}] [{s}]{s} {s}\n", .{
-            .color = colorStr,
+            .color = color_str,
             .level = @tagName(lvl),
             .region = self.region,
             .now = now,
