@@ -8,23 +8,30 @@ const testing = std.testing;
 
 const time = @import("time");
 
-pub const Level = enum {
-    ftl,
-    err,
-    wrn,
-    inf,
-    dbg,
+pub const Level = enum(u8) {
+    const Self = @This();
 
-    pub fn num(self: @This()) u8 {
-        return switch (self) {
-            .ftl => 5,
-            .err => 4,
-            .wrn => 3,
-            .inf => 2,
-            .dbg => 1,
-        };
+    dbg,
+    inf,
+    wrn,
+    err,
+    ftl,
+
+    fn enabled(global_lvl: Self, local_lvl: Self) bool {
+        return @intFromEnum(global_lvl) <= @intFromEnum(local_lvl);
     }
 };
+
+test "log levels" {
+    try testing.expect(Level.enabled(.dbg, .dbg));
+    try testing.expect(Level.enabled(.dbg, .inf));
+    try testing.expect(Level.enabled(.wrn, .err));
+    try testing.expect(Level.enabled(.ftl, .ftl));
+
+    try testing.expect(!Level.enabled(.inf, .dbg));
+    try testing.expect(!Level.enabled(.wrn, .inf));
+    try testing.expect(!Level.enabled(.ftl, .err));
+}
 
 pub const Options = struct {
     allocator: Allocator,
@@ -105,10 +112,7 @@ pub const Logger = struct {
     }
 
     fn write(self: Self, comptime fmt: []const u8, args: anytype, lvl: Level, color: Color) void {
-        const global_lvl = opts.level.num();
-        const local_lvl = lvl.num();
-        if (local_lvl < global_lvl) {
-            // log level is not high enough
+        if (!Level.enabled(opts.level, lvl)) {
             return;
         }
 
