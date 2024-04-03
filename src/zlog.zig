@@ -82,14 +82,14 @@ pub fn deinit() void {
     opts.deinit();
 }
 
-const Color = enum {
+pub const Color = enum {
     Red,
     Green,
     Yellow,
     Blue,
     Reset,
 
-    fn str(self: Color) []const u8 {
+    pub fn str(self: Color) []const u8 {
         return switch (self) {
             .Red => "\x1b[31m",
             .Green => "\x1b[32m",
