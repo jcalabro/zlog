@@ -2,7 +2,7 @@ const std = @import("std");
 
 pub fn build(b: *std.Build) void {
     const zlog = b.addModule("zlog", .{
-        .root_source_file = .{ .path = "src/zlog.zig" },
+        .root_source_file = b.path("src/zlog.zig"),
     });
 
     const time_dep = b.dependency("time", .{});
@@ -14,7 +14,7 @@ pub fn build(b: *std.Build) void {
         const optimize = b.standardOptimizeOption(.{});
 
         const tests = b.addTest(.{
-            .root_source_file = .{ .path = "src/zlog.zig" },
+            .root_source_file = b.path("src/zlog.zig"),
             .target = target,
             .optimize = optimize,
         });
