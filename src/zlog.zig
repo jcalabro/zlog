@@ -192,13 +192,13 @@ pub const Logger = struct {
         write(self, fmt, args, Level.err, Color.Red);
     }
 
-    pub fn fatal(self: @This(), comptime fmt: []const u8) void {
+    pub fn fatal(self: @This(), comptime fmt: []const u8) noreturn {
         fatalf(self, fmt, .{});
     }
 
-    pub fn fatalf(self: @This(), comptime fmt: []const u8, args: anytype) void {
+    pub fn fatalf(self: @This(), comptime fmt: []const u8, args: anytype) noreturn {
         write(self, fmt, args, Level.ftl, Color.Red);
-        std.os.exit(1);
+        std.process.exit(1);
     }
 };
 
