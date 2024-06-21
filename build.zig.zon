@@ -1,5 +1,5 @@
 .{
-    .name = "logger",
+    .name = "zlog",
     .version = "0.1.0",
     .dependencies = .{
         .time = .{
