@@ -4,13 +4,10 @@ Simple structured logging for Zig.
 
 ## Usage
 
-Add the following dependency to your `build.zig.zon` file's dependencies section:
+Add the following dependency to your `build.zig.zon` file's dependencies section with:
 
 ```
-.zlog = .{
-    .url = "https://github.com/jcalabro/zlog/archive/main.tar.gz",
-    .hash = "<hash>",
-}
+zig fetch --save https://github.com/jcalabro/zlog/archive/main.tar.gz
 ```
 
 Add the following to your `build.zig`:
