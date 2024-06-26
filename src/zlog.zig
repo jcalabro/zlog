@@ -208,6 +208,9 @@ pub const Logger = struct {
     }
 
     pub fn flush(_: Self) void {
+        opts.mu.lock();
+        defer opts.mu.unlock();
+
         opts.buf.flush() catch return;
     }
 };
