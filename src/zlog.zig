@@ -70,7 +70,7 @@ pub fn init(op: Options) !void {
 
         // split up regions based on "," and trim remaining whitespace
         const whitespace = " \r\t\x00";
-        var iter = mem.split(u8, opts.regions, ",");
+        var iter = mem.splitSequence(u8, opts.regions, ",");
         try active_regions.append(iter.first());
         var next = iter.next();
         while (next != null) {
